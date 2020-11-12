@@ -11,15 +11,17 @@ headers = {
 
 def lookup(term, country):
     querystring = {"term":f"{term}","country":f"{country}"}
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    return(response.text)
 
 @app.route('/home', methods=['GET','POST'])
 def home():
     if request.method == 'POST':
-        return lookup(term=title, country=country)
+        results = lookup(term=title, country=country)
+        return render_template('results.html', results=results)
     else:
         return render_template('home.html')
-    #response = requests.request("GET", url, headers=headers, params=querystring)
-    #return(response.text)
+
 
 
 
